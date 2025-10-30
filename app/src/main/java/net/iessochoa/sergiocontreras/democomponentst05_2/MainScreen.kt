@@ -96,7 +96,12 @@ fun MainScreen() {
                     .padding(innerPadding)
             )
             Spacer(modifier = Modifier.weight(1f)) //El trucazo de la separacion
-            SummaryPanel()
+            SummaryPanel(
+                selectedGame = gameSelected,
+                difficulty = currentDifficulty,
+                score = currentGameScore.toInt(),
+                modifier = Modifier
+            )
         }
     }
 
@@ -105,11 +110,11 @@ fun MainScreen() {
 
 @Composable
 fun SummaryPanel(
+    selectedGame: Game,
+    difficulty: Int,
+    score: Int,
     modifier: Modifier = Modifier,
-    selectedGame: Game? = null,
-    difficulty: Int = 0,
-    score: Int = 0
-) {
+    ) {
     val selectedGameTitle = selectedGame?.title ?: "No game selected"
 
     Column(
