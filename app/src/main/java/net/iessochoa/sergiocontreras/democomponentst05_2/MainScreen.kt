@@ -80,12 +80,15 @@ fun MainScreen() {
         }
         //bottomBar = TODO(),
     ) { innerPadding ->
-        ReviewForm(
-            games = gameList,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        )
+        Column {
+            ReviewForm(
+                games = gameList,
+                modifier = Modifier
+                    .padding(innerPadding)
+            )
+            Spacer(modifier = Modifier.weight(1f)) //El trucazo de la separacion
+            SummaryPanel()
+        }
     }
 
 }
