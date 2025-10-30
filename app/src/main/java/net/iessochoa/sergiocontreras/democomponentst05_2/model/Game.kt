@@ -1,4 +1,4 @@
-package net.iessochoa.sergiocontreras.democomponentst05_2
+package net.iessochoa.sergiocontreras.democomponentst05_2.model
 
 import androidx.annotation.DrawableRes
 

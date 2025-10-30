@@ -1,7 +1,6 @@
 package net.iessochoa.sergiocontreras.democomponentst05_2
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -31,8 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import net.iessochoa.sergiocontreras.democomponentst05_2.data.getGameList
+import net.iessochoa.sergiocontreras.democomponentst05_2.model.Game
+import net.iessochoa.sergiocontreras.democomponentst05_2.ui.GameCard
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.components.CustomDropdownMenu
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.components.RatingBar
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.theme.DemoComponentsT052Theme

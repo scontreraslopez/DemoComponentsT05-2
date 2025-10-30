@@ -1,4 +1,4 @@
-package net.iessochoa.sergiocontreras.democomponentst05_2
+package net.iessochoa.sergiocontreras.democomponentst05_2.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import net.iessochoa.sergiocontreras.democomponentst05_2.model.Game
 
 /**
  * Tarjeta personalizada para mostrar la información de un Juego.

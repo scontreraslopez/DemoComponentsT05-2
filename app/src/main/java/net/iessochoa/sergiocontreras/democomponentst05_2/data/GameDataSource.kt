@@ -1,4 +1,7 @@
-package net.iessochoa.sergiocontreras.democomponentst05_2
+package net.iessochoa.sergiocontreras.democomponentst05_2.data
+
+import net.iessochoa.sergiocontreras.democomponentst05_2.model.Game
+import net.iessochoa.sergiocontreras.democomponentst05_2.R
 
 /**
  * Simula una base de datos de juegos.
