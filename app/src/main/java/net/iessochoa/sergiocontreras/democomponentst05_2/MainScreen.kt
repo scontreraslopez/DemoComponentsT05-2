@@ -44,6 +44,9 @@ fun MainScreen() {
     val gameList = getGameList() // Cargamos la lista de juegos
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    var currentGameScore by remember { mutableStateOf(0) }
+    var gameSelected by remember { mutableStateOf(gameList[0])}
+
 
     val fabOnClick: () -> Unit = {
         scope.launch {
@@ -83,6 +86,12 @@ fun MainScreen() {
         Column {
             ReviewForm(
                 games = gameList,
+                gameSelected = gameSelected,
+                currentGameScore = currentGameScore,
+                onGameSelected = {
+                    gameSelected = gameList.find { game -> game.title == it.title } ?: gameList[0]
+                },
+                onScoreChanged = { currentGameScore = it },
                 modifier = Modifier
                     .padding(innerPadding)
             )
@@ -94,26 +103,29 @@ fun MainScreen() {
 }
 
 @Composable
-fun ReviewForm(games: List<Game>, modifier: Modifier = Modifier) {
+fun ReviewForm(
+    games: List<Game>,
+    gameSelected: Game,
+    onGameSelected: (Game) -> Unit = {},
+    onScoreChanged: (Int) -> Unit = {},
+    currentGameScore: Int,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre componentes
     ) {
 
+        val optionsList = games.map { it.title }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        val optionsList = games.map { it.title }
-        var gameSelected by remember { mutableStateOf(games[0])}
 
         // Placeholder 1: DropDownMenu (Componente custom nuestro reutilizado)
         CustomDropdownMenu(
             options = optionsList,
             selected = gameSelected.title,
-            onValueChanged = {
-                gameSelected = games.find { game -> game.title == it } ?: games[0]
-            },
+            onValueChanged = {onGameSelected },
             label = "Games"
         )
 
@@ -122,8 +134,8 @@ fun ReviewForm(games: List<Game>, modifier: Modifier = Modifier) {
 
         // Placeholder 2: RatingBar (Componente custom nuestro reutilizado)
         RatingBar(
-            currentRating = 2,
-            onRatingChanged = {}
+            currentRating = currentGameScore,
+            onRatingChanged = onScoreChanged
         )
 
 
@@ -147,13 +159,21 @@ fun ReviewForm(games: List<Game>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SummaryPanel() {
-    Column {
-        Text("Review para el juego AAA")
-        Text("Dificultad: 2/5")
-        Text("Puntuación: 4/5")
-    }
+fun SummaryPanel(
+    selectedGame: Game? = null,
+    modifier: Modifier = Modifier,
+    difficulty: Int = 0,
+    score: Int = 0
+) {
+    val selectedGameTitle = selectedGame?.title ?: "No game selected"
 
+    Column(
+        modifier = modifier
+    ) {
+        Text("Review para el juego $selectedGameTitle")
+        Text("Dificultad: $difficulty/5")
+        Text("Puntuación: $score/5")
+    }
 }
 
 
