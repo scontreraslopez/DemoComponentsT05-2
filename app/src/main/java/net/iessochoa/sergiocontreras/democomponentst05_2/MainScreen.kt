@@ -61,6 +61,14 @@ fun ReviewForm(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
+        //Esto aqui mal metido a fuego para que lo movamos donde toca
+        val previewJuego = Game(
+            title = "Elden Ring (Preview)",
+            shortDescription = "Un vasto mundo de fantasía oscura donde te esperan grandes peligros.",
+            imageRes = R.drawable.elden_ring_v1
+        )
+        GameCard(game = previewJuego)
+
         // Placeholder 2: RatingBar (Componente custom nuestro reutilizado)
         Text(
             text = "[ AQUÍ VA EL RATINGBAR (RatingBar) ]",
@@ -73,8 +81,6 @@ fun ReviewForm(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // El Toast lo añadiremos en la lógica del Slider
-        // El Snackbar se lanzará desde el FAB (en MainScreen)
     }
 }
 
