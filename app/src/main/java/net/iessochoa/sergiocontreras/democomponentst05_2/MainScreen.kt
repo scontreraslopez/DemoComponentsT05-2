@@ -6,36 +6,31 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import net.iessochoa.sergiocontreras.democomponentst05_2.data.getGameList
 import net.iessochoa.sergiocontreras.democomponentst05_2.model.Game
-import net.iessochoa.sergiocontreras.democomponentst05_2.ui.GameCard
-import net.iessochoa.sergiocontreras.democomponentst05_2.ui.components.CustomDropdownMenu
-import net.iessochoa.sergiocontreras.democomponentst05_2.ui.components.RatingBar
+import net.iessochoa.sergiocontreras.democomponentst05_2.ui.components.ReviewForm
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.theme.DemoComponentsT052Theme
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.theme.Typography
 
@@ -45,7 +40,9 @@ fun MainScreen() {
     val gameList = getGameList() // Cargamos la lista de juegos
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    var currentGameScore by remember { mutableIntStateOf(0) }
+
+    var currentGameScore by remember { mutableFloatStateOf(0f) }
+    var currentDifficulty by remember { mutableIntStateOf(0) }
     var gameSelected by remember { mutableStateOf(gameList[0])} //Game
 
 
@@ -88,11 +85,13 @@ fun MainScreen() {
             ReviewForm(
                 games = gameList,
                 gameSelected = gameSelected,
-                currentGameScore = currentGameScore,
+                currentGameScore = currentGameScore.toInt(),
+                currentGameDifficulty = currentDifficulty,
                 onGameSelected = {
                     gameSelected = it
                 },
-                onScoreChanged = { currentGameScore = it },
+                onRatingChanged = { currentGameScore = it },
+                onDifficultyChanged = { currentDifficulty = it },
                 modifier = Modifier
                     .padding(innerPadding)
             )
@@ -103,69 +102,6 @@ fun MainScreen() {
 
 }
 
-@Composable
-fun ReviewForm(
-    games: List<Game>,
-    gameSelected: Game,
-    modifier: Modifier = Modifier,
-    onGameSelected: (Game) -> Unit = {},
-    onScoreChanged: (Int) -> Unit = {},
-    currentGameScore: Int,
-) {
-    Column(
-        modifier = modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre componentes
-    ) {
-
-        val optionsList = games.map { it.title }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Placeholder 1: DropDownMenu (Componente custom nuestro reutilizado)
-        CustomDropdownMenu(
-            options = optionsList,
-            selected = gameSelected.title,
-            onValueChanged = { title ->
-                onGameSelected(games.find { it.title == title }!!)
-            },
-            label = "Games"
-        )
-
-        //Esto aqui mal metido a fuego para que lo movamos donde toca
-        GameCard(game = gameSelected)
-
-        // Placeholder 2: RatingBar (Componente custom nuestro reutilizado)
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Difficulty: ")
-            RatingBar(
-                currentRating = currentGameScore,
-                onRatingChanged = onScoreChanged
-            )
-        }
-
-
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Score: ")
-            Spacer(modifier= Modifier.weight(1f))
-            Slider(
-                value = 3f,
-                onValueChange = {},
-                steps = 5,
-                valueRange = 0f..5f
-            )
-        }
-
-
-
-    }
-}
 
 @Composable
 fun SummaryPanel(
