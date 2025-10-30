@@ -8,26 +8,53 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import net.iessochoa.sergiocontreras.democomponentst05_2.ui.theme.DemoComponentsT052Theme
 
 @Composable
 fun MainScreen() {
 
     val gameList = getGameList() // Cargamos la lista de juegos
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
-    Scaffold(modifier = Modifier.fillMaxSize()
+    val fabOnClick: () -> Unit = {
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = "SUSTITUIR POR EL JUEGO",
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
+    Scaffold(modifier = Modifier.fillMaxSize(),
         //topBar = TODO(),
-        //snackbarHost = TODO(),
-        //floatingActionButton = TODO(),
+         snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = fabOnClick
+            ) {
+                Text("DDDD")
+            }
+        }
         //bottomBar = TODO(),
     ) { innerPadding ->
         ReviewForm(
