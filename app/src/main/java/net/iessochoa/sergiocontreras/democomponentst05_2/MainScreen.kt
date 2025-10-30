@@ -30,11 +30,14 @@ fun MainScreen() {
         //floatingActionButton = TODO(),
         //bottomBar = TODO(),
     ) { innerPadding ->
-        ReviewForm(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        )
+        Column {
+            ReviewForm(
+                modifier = Modifier
+                    .padding(innerPadding)
+            )
+            Spacer(modifier = Modifier.weight(1f)) //El trucazo de la separacion
+            SummaryPanel()
+        }
     }
 
 }
@@ -81,7 +84,18 @@ fun ReviewForm(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
+
     }
+}
+
+@Composable
+fun SummaryPanel() {
+    Column {
+        Text("Review para el juego AAA")
+        Text("Dificultad: 2/5")
+        Text("Puntuación: 4/5")
+    }
+
 }
 
 @Preview
