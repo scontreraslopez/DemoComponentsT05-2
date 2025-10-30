@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,14 +45,14 @@ fun MainScreen() {
     val gameList = getGameList() // Cargamos la lista de juegos
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    var currentGameScore by remember { mutableStateOf(0) }
-    var gameSelected by remember { mutableStateOf(gameList[0])}
+    var currentGameScore by remember { mutableIntStateOf(0) }
+    var gameSelected by remember { mutableStateOf(gameList[0])} //Game
 
 
     val fabOnClick: () -> Unit = {
         scope.launch {
             snackbarHostState.showSnackbar(
-                message = "SUSTITUIR POR EL JUEGO",
+                message = "Me encanta el juego ${gameSelected.title}",
                 duration = SnackbarDuration.Short
             )
         }
@@ -89,7 +90,7 @@ fun MainScreen() {
                 gameSelected = gameSelected,
                 currentGameScore = currentGameScore,
                 onGameSelected = {
-                    gameSelected = gameList.find { game -> game.title == it.title } ?: gameList[0]
+                    gameSelected = it
                 },
                 onScoreChanged = { currentGameScore = it },
                 modifier = Modifier
@@ -106,10 +107,10 @@ fun MainScreen() {
 fun ReviewForm(
     games: List<Game>,
     gameSelected: Game,
+    modifier: Modifier = Modifier,
     onGameSelected: (Game) -> Unit = {},
     onScoreChanged: (Int) -> Unit = {},
     currentGameScore: Int,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(16.dp),
@@ -125,7 +126,9 @@ fun ReviewForm(
         CustomDropdownMenu(
             options = optionsList,
             selected = gameSelected.title,
-            onValueChanged = {onGameSelected },
+            onValueChanged = { title ->
+                onGameSelected(games.find { it.title == title }!!)
+            },
             label = "Games"
         )
 
@@ -133,10 +136,16 @@ fun ReviewForm(
         GameCard(game = gameSelected)
 
         // Placeholder 2: RatingBar (Componente custom nuestro reutilizado)
-        RatingBar(
-            currentRating = currentGameScore,
-            onRatingChanged = onScoreChanged
-        )
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Difficulty: ")
+            RatingBar(
+                currentRating = currentGameScore,
+                onRatingChanged = onScoreChanged
+            )
+        }
 
 
         Row (
@@ -160,8 +169,8 @@ fun ReviewForm(
 
 @Composable
 fun SummaryPanel(
-    selectedGame: Game? = null,
     modifier: Modifier = Modifier,
+    selectedGame: Game? = null,
     difficulty: Int = 0,
     score: Int = 0
 ) {
@@ -184,4 +193,3 @@ fun MainScreenPreview() {
         MainScreen()
     }
 }
-
