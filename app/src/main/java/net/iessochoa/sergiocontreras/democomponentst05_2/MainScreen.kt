@@ -143,6 +143,17 @@ fun ReviewForm(games: List<Game>, modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun SummaryPanel() {
+    Column {
+        Text("Review para el juego AAA")
+        Text("Dificultad: 2/5")
+        Text("Puntuación: 4/5")
+    }
+
+}
+
+
 @Preview
 @Composable
 fun MainScreenPreview() {
