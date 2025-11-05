@@ -11,3 +11,8 @@ This project showcases the following custom components:
 *   `RatingBar`: A custom rating bar component.
 *   `CustomDropdownMenu`: A customizable dropdown menu.
 *   `SummaryPanel`: A panel that displays a summary of the user's review.
+
+## Branches
+
+In branch `main` you have the starting code to practise
+In the branch `develop` a possible to solution to the problem.
